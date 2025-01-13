@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CurrencyConverterMaterialPage extends StatefulWidget {
@@ -12,6 +12,17 @@ class _CurrencyConverterMaterialPageState
     extends State<CurrencyConverterMaterialPage> {
   double result = 0;
   final TextEditingController textEditingController = TextEditingController();
+
+  void convert() {
+    result = double.parse(textEditingController.text) * 86;
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    textEditingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,19 +49,19 @@ class _CurrencyConverterMaterialPageState
       ),
       backgroundColor: Colors.black,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Rs. $result",
-              style: const TextStyle(
-                  fontSize: 55,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "Rs. ${result != 0 ? result.toStringAsFixed(2) : result.toStringAsFixed(0)}",
+                style: const TextStyle(
+                    fontSize: 55,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+              TextField(
                 controller: textEditingController,
                 decoration: InputDecoration(
                   hintText: "Please Enter an amount in USD : ",
@@ -67,23 +78,22 @@ class _CurrencyConverterMaterialPageState
                   decimal: true,
                 ),
               ),
-            ),
-            //button
-            ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    result = double.parse(textEditingController.text) * 86;
-                  });
-                },
-                style: TextButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
-                    minimumSize: const Size(150, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    )),
-                child: const Text("Convert")),
-          ],
+              const SizedBox(
+                height: 10,
+              ),
+              //button
+              ElevatedButton(
+                  onPressed: convert,
+                  style: TextButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      minimumSize: const Size(150, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      )),
+                  child: const Text("Convert")),
+            ],
+          ),
         ),
       ),
     );
